@@ -1,5 +1,12 @@
 package task2;
 
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 public class Request {
 
     private String inputStream;
@@ -53,6 +60,7 @@ public class Request {
     }
 
 }
+
 public interface ChainHandler {
 
     void process(@NotNull Request request);
@@ -62,6 +70,7 @@ public interface ChainHandler {
     ChainHandler next(ChainHandler chainHandler);
 
 }
+
 public abstract class AbstractChainHandler implements ChainHandler {
 
     private ChainHandler chainHandler;
@@ -72,7 +81,7 @@ public abstract class AbstractChainHandler implements ChainHandler {
     ) {
         validate(request);
         handle(request);
-        if(Objects.nonNull(next()))
+        if (Objects.nonNull(next()))
             next().process(request);
     }
 
@@ -97,6 +106,7 @@ public abstract class AbstractChainHandler implements ChainHandler {
     abstract void handle(@NotNull Request request);
 
 }
+
 public class HeadersChainHandler extends AbstractChainHandler {
 
     private static final String DELIMITER = ":";
@@ -108,12 +118,12 @@ public class HeadersChainHandler extends AbstractChainHandler {
         String[] headers = StringUtils.split(request.getInputStream(),
                 "\n");
 
-        for(String header : headers) {
+        for (String header : headers) {
             if (header.isEmpty())
                 continue;
 
             String[] arr = StringUtils.split(header, DELIMITER);
-            if(0 == arr.length)
+            if (0 == arr.length)
                 continue;
 
             request.getHeaders().put(arr[0], arr[1]);
@@ -121,6 +131,7 @@ public class HeadersChainHandler extends AbstractChainHandler {
     }
 
 }
+
 public class MethodChainHandler extends AbstractChainHandler {
 
     private static final String KEY = "method";
@@ -129,11 +140,12 @@ public class MethodChainHandler extends AbstractChainHandler {
     void handle(
             @NotNull Request request
     ) {
-        if(request.getHeaders().containsKey(KEY))
+        if (request.getHeaders().containsKey(KEY))
             request.setMethod(request.getHeaders().get(KEY));
     }
 
 }
+
 public class PathChainHandler extends AbstractChainHandler {
 
     private static final String KEY = "path";
@@ -142,11 +154,12 @@ public class PathChainHandler extends AbstractChainHandler {
     public void handle(
             @NotNull Request request
     ) {
-        if(request.getHeaders().containsKey(KEY))
+        if (request.getHeaders().containsKey(KEY))
             request.setPath(request.getHeaders().get(KEY));
     }
 
 }
+
 public class SessionChainHandler extends AbstractChainHandler {
 
     private static final String KEY = "session";
@@ -155,17 +168,18 @@ public class SessionChainHandler extends AbstractChainHandler {
     public void handle(
             @NotNull Request request
     ) {
-        if(request.getHeaders().containsKey(KEY))
+        if (request.getHeaders().containsKey(KEY))
             request.setSession(request.getHeaders().get(KEY));
     }
 
 }
+
 public class ChainService {
 
     public Request exec(String inputStream) {
         Request request = new Request();
         request.setInputStream(inputStream);
-                ChainHandler handler = new HeadersChainHandler();
+        ChainHandler handler = new HeadersChainHandler();
         handler.next(new MethodChainHandler())
                 .next(new PathChainHandler())
                 .next(new SessionChainHandler());
@@ -175,4 +189,12 @@ public class ChainService {
         return request;
     }
 
+}
+
+public class Application {
+    public static void main(String[] args) {
+        ChainService service = new ChainService();
+        String streamArr = "Hello World!";
+        service.exec(streamArr);
+    }
 }
