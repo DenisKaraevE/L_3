@@ -5,20 +5,20 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
-public interface Strategy {
+interface Strategy {
 
     @NotNull
     String process(@NotNull List<String> stings);
 
 }
-public interface StrategyService {
+interface StrategyService {
 
     String exec(List<String> strings);
 
     StrategyService setStrategy(@NotNull Strategy strategy);
 
 }
-public class CommaSeparatedStrategy implements Strategy {
+class CommaSeparatedStrategy implements Strategy {
 
     @NotNull
     @Override
@@ -29,7 +29,7 @@ public class CommaSeparatedStrategy implements Strategy {
     }
 
 }
-public class SemicolonSeparatedStrategy implements Strategy {
+class SemicolonSeparatedStrategy implements Strategy {
 
     @NotNull
     @Override
@@ -40,7 +40,7 @@ public class SemicolonSeparatedStrategy implements Strategy {
     }
 
 }
-public class StrategyServiceImpl implements StrategyService {
+class StrategyServiceImpl implements StrategyService {
 
     private Strategy strategy;
 
@@ -71,7 +71,7 @@ public class StrategyServiceImpl implements StrategyService {
 public class Application {
     public static void main(String[] args) {
         StrategyServiceImpl service = new StrategyServiceImpl(new CommaSeparatedStrategy());
-        List<String> strings = Arrays.asList("Hello", "World", "Raynelz");
+        List<String> strings = Arrays.asList("Hello", "World");
         String result = service.exec(strings);
         System.out.println("Result: " + result);
     }
