@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class Request {
+class Request {
 
     private String inputStream;
 
@@ -61,7 +61,7 @@ public class Request {
 
 }
 
-public interface ChainHandler {
+interface ChainHandler {
 
     void process(@NotNull Request request);
 
@@ -71,7 +71,7 @@ public interface ChainHandler {
 
 }
 
-public abstract class AbstractChainHandler implements ChainHandler {
+abstract class AbstractChainHandler implements ChainHandler {
 
     private ChainHandler chainHandler;
 
@@ -107,7 +107,7 @@ public abstract class AbstractChainHandler implements ChainHandler {
 
 }
 
-public class HeadersChainHandler extends AbstractChainHandler {
+class HeadersChainHandler extends AbstractChainHandler {
 
     private static final String DELIMITER = ":";
 
@@ -132,7 +132,7 @@ public class HeadersChainHandler extends AbstractChainHandler {
 
 }
 
-public class MethodChainHandler extends AbstractChainHandler {
+class MethodChainHandler extends AbstractChainHandler {
 
     private static final String KEY = "method";
 
@@ -146,7 +146,7 @@ public class MethodChainHandler extends AbstractChainHandler {
 
 }
 
-public class PathChainHandler extends AbstractChainHandler {
+class PathChainHandler extends AbstractChainHandler {
 
     private static final String KEY = "path";
 
@@ -160,7 +160,7 @@ public class PathChainHandler extends AbstractChainHandler {
 
 }
 
-public class SessionChainHandler extends AbstractChainHandler {
+class SessionChainHandler extends AbstractChainHandler {
 
     private static final String KEY = "session";
 
@@ -174,7 +174,7 @@ public class SessionChainHandler extends AbstractChainHandler {
 
 }
 
-public class ChainService {
+class ChainService {
 
     public Request exec(String inputStream) {
         Request request = new Request();
