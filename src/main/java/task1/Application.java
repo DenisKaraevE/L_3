@@ -1,5 +1,7 @@
 package task1;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface Strategy {
 
     @NotNull
@@ -60,5 +62,14 @@ public class StrategyServiceImpl implements StrategyService {
  ) {
         this.strategy = strategy;
         return this;
+    }
+}
+
+public class Application {
+    public static void main(String[] args) {
+        StrategyServiceImpl service = new StrategyServiceImpl(new CommaSeparatedStrategy());
+        List<String> strings = Arrays.asList("Hello", "World", "Raynelz");
+        String result = service.exec(strings);
+        System.out.println("Result: " + result);
     }
 }
