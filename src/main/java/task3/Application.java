@@ -1,5 +1,8 @@
 package task3;
 
+import java.util.ArrayList;
+import java.util.List;
+
 interface Iterator<T> {
 
     boolean hasNext();
@@ -11,7 +14,7 @@ enum ItemType {
     ANY, WEAPON, RING, POTION
 }
 
-public class Item {
+class Item {
 
     private ItemType type;
     private final String name;
@@ -117,4 +120,10 @@ public class TreasureChest {
         return new ArrayList<>(items);
     }
 
+}
+
+public class Application {
+    public static void main(String[] args) {
+
+    }
 }
