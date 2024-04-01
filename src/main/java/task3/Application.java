@@ -38,7 +38,7 @@ class Item {
     }
 
 }
-public class TreasureChestItemIterator implements Iterator<Item> {
+class TreasureChestItemIterator implements Iterator<Item> {
 
     private final TreasureChest chest;
     private final ItemType type;
@@ -87,7 +87,7 @@ public class TreasureChestItemIterator implements Iterator<Item> {
     }
 
 }
-public class TreasureChest {
+class TreasureChest {
 
     private final List<Item> items;
 
