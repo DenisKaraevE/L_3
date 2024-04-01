@@ -172,6 +172,10 @@ class SessionChainHandler extends AbstractChainHandler {
             request.setSession(request.getHeaders().get(KEY));
     }
 
+    public ChainHandler next(){
+        return null;
+    }
+
 }
 
 class ChainService {
