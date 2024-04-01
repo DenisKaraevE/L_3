@@ -112,9 +112,7 @@ class HeadersChainHandler extends AbstractChainHandler {
     private static final String DELIMITER = ":";
 
     @Override
-    void handle(
-            @NotNull Request request
-    ) {
+    void handle(@NotNull Request request) {
         String[] headers = StringUtils.split(request.getInputStream(),
                 "\n");
 
@@ -123,7 +121,7 @@ class HeadersChainHandler extends AbstractChainHandler {
                 continue;
 
             String[] arr = StringUtils.split(header, DELIMITER);
-            if (0 == arr.length)
+            if (arr.length < 2)
                 continue;
 
             request.getHeaders().put(arr[0], arr[1]);
@@ -137,11 +135,13 @@ class MethodChainHandler extends AbstractChainHandler {
     private static final String KEY = "method";
 
     @Override
-    void handle(
-            @NotNull Request request
-    ) {
+    void handle(@NotNull Request request) {
         if (request.getHeaders().containsKey(KEY))
             request.setMethod(request.getHeaders().get(KEY));
+    }
+    @Override
+    public ChainHandler next(){
+        return null;
     }
 
 }
@@ -151,9 +151,7 @@ class PathChainHandler extends AbstractChainHandler {
     private static final String KEY = "path";
 
     @Override
-    public void handle(
-            @NotNull Request request
-    ) {
+    public void handle(@NotNull Request request) {
         if (request.getHeaders().containsKey(KEY))
             request.setPath(request.getHeaders().get(KEY));
     }
@@ -171,7 +169,7 @@ class SessionChainHandler extends AbstractChainHandler {
         if (request.getHeaders().containsKey(KEY))
             request.setSession(request.getHeaders().get(KEY));
     }
-
+    @Override
     public ChainHandler next(){
         return null;
     }
